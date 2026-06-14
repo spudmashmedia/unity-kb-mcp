@@ -8,7 +8,7 @@ In the Developer Tab, edit the **mcp.json**
 {
   "mcpServers": {
     "unity_docs": {
-      "url": "http://127.0.0.1:8000/mcp"
+      "url": "http://127.0.0.1:8002/mcp"
     }
   }
 }
@@ -27,7 +27,7 @@ To get the tool operational with OpenCode, add the following to your **opencode.
   "mcp": {
     "unity-docs": {
       "type": "remote",
-      "url": "http://host.docker.internal:8000/mcp",
+      "url": "http://host.docker.internal:8002/mcp",
       "enable": true
     }
   }
