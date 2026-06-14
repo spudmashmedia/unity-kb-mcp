@@ -1,0 +1,23 @@
+name: unity-kb
+services:
+  ingest:
+    build:
+      context: .
+      dockerfile: ./src/ingest/ingest.Dockerfile
+    container_name: unity-kb-ingest
+    volumes:
+      - ./data:/app/data
+    environment:
+      - APP_ENV=ingest
+      - DB_ROOT= /app/data/vectors/unity_api_index
+      - PYTHONUNBUFFERED=1
+    networks:
+      - unity-kb-network
+    profiles: ["manual"]
+
+networks:
+  unity-kb-network:
+    driver: bridge
+
+volumes:
+  chromadb_data:

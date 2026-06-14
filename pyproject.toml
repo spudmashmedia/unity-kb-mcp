@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unity_kb_mcp"
+version = "0.1.0"
+description = "Unity Knowledge Base Document Ingest + MCP Server"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "chromadb",
+    "beautifulsoup4",
+    "trafilatura",
+    "langchain-text-splitters",
+    "tqdm",
+    "ollama",
+    "lxml",
+    "mcp",
+    "pydantic",
+    "dotenv",
+]
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+    "pip-tools",
+]
+
+[project.scripts]
+unity-kb-mcp = "mcp.unity_mcp:main"
+unity-kb-ingest = "src.ingest.ingest_docs:main"
+unity-kb-query = "src.ingest.query:main"
+
+[tool.unity_kb_mcp.db]
+LOCAL_DB = true
+DB_NAME = "./data/vectors/unity_api_index"
+COLLECTION_NAME = "unity_api"
+METADATA_USE = true
+METADATA_VERSION = "5.1"
+HOST = "127.0.0.1"
+PORT = 8000
+
+[tool.unity_kb_mcp.llm]
+MODEL_NAME = "qwen3-embedding:0.6b"
+HOST = "127.0.0.1"
+PORT = 11434
+
+[tool.unity_kb_mcp.query]
+RESPONSE_TYPE = "embeddings"
+TOTAL_RESULTS = 30
+CONTENT_LENGTH = 200
+SIMILARITY_THRESHOLD = 0.01
+
+[tool.unity_kb_mcp.ingest]
+DOC_PATHS = [
+    "./data/raw",
+]
+CLEAN_ALG = "traf"
+BATCH_SIZE = 50
+ARCHIVE_PATH = "./data/archive/raw"
+STATE_FILE_NAME = "ingestion_state.json"
+
+[tool.unity_kb_mcp.formats]
+ENABLE_MARKDOWN = true
+ENABLE_HTML = true
+ALLOWED_EXTENSIONS = [".html", ".htm", ".md", ".markdown"]
+FORMAT_FALLBACK = "traf"
+
+[tool.unity_kb_mcp.server]
+TRANSPORT = "http"
+HOST = "127.0.0.1"
+PORT = "8000"

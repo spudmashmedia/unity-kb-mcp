@@ -1,0 +1,23 @@
+[tool.unity_kb_mcp.db]
+DB_NAME = "./data/vectors/unity_api_index"
+COLLECTION_NAME = "unity_api"
+METADATA_USE = true
+METADATA_VERSION = "5.1"
+HOST = "chromadb"
+PORT = 8000
+LOCAL_DB = false
+
+[tool.unity_kb_mcp.llm]
+MODEL_NAME = "qwen3-embedding:0.6b"
+HOST = "host.docker.internal"
+
+[tool.unity_kb_mcp.formats]
+ENABLE_MARKDOWN = true
+ENABLE_HTML = true
+ALLOWED_EXTENSIONS = [".html", ".htm", ".md", ".markdown"]
+FORMAT_FALLBACK = "traf"
+
+[tool.unity_kb_mcp.server]
+TRANSPORT = "http"
+HOST = "0.0.0.0"
+PORT = "8000"

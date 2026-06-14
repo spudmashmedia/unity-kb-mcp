@@ -1,0 +1,43 @@
+name: unity-kb
+services:
+  chromadb:
+    image: chromadb/chroma
+    container_name: unity-kb-chromadb
+    # ports:
+    #   - ":8000"
+    volumes:
+      - ./data/vectors/unity_api_index:/data
+    restart: unless-stopped
+    networks:
+      - unity-kb-network
+
+  mcp-server:
+    build:
+      context: .
+      dockerfile: ./src/mcp-server/mcp_ollama_host.Dockerfile
+    container_name: unity-kb-mcp
+    ports:
+      - "8002:8000"
+    environment:
+      - APP_ENV=mcp_ollama_host
+      - FASTMCP_HOST=0.0.0.0
+      - FASTMCP_PORT=8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://host.docker.internal:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - unity-kb-network
+    depends_on:
+      chromadb:
+        condition: service_started
+
+networks:
+  unity-kb-network:
+    driver: bridge
+
+volumes:
+  chromadb_data:

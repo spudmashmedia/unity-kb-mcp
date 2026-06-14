@@ -1,0 +1,28 @@
+[tool.unity_kb_mcp.db]
+DB_NAME = "./data/vectors/unity_api_index"
+COLLECTION_NAME = "unity_api"
+METADATA_USE = true
+METADATA_VERSION = "5.1"
+HOST = "127.0.0.1"
+PORT = 8000
+LOCAL_DB = true
+
+[tool.unity_kb_mcp.llm]
+MODEL_NAME = "qwen3-embedding:0.6b"
+HOST = "host.docker.internal"
+
+[tool.unity_kb_mcp.ingest]
+DOC_PATHS = [
+    "./data/raw",
+]
+CLEAN_ALG = "traf"
+BATCH_SIZE = 50
+ARCHIVE_PATH = "./data/archive/raw"
+STATE_FILE_NAME = "ingestion_state.json"
+
+[tool.unity_kb_mcp.formats]
+ENABLE_MARKDOWN = true
+ENABLE_HTML = true
+ALLOWED_EXTENSIONS = [".html", ".htm", ".md", ".markdown"]
+FORMAT_FALLBACK = "traf"
+
